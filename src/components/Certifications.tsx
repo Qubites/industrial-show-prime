@@ -62,12 +62,30 @@ const Certifications = () => {
               </div>
             </div>
 
-            <button className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">
+            <button
+              onClick={() => setShowCert(true)}
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors"
+            >
               <FileText size={14} />
               {t.certifications.certificate.viewCert}
             </button>
           </div>
         </div>
+
+        {/* Certificate modal */}
+        {showCert && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-graphite/80 backdrop-blur-sm p-4" onClick={() => setShowCert(false)}>
+            <div className="relative max-w-2xl w-full bg-card rounded-lg border border-border p-2" onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={() => setShowCert(false)}
+                className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-background/80 flex items-center justify-center text-foreground hover:bg-background transition-colors"
+              >
+                <X size={16} />
+              </button>
+              <img src={certifikatImage} alt="Nordcert Certificate 1505-CPR-CS1124" className="w-full rounded" />
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
