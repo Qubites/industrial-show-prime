@@ -6,6 +6,12 @@ import project3 from '@/assets/project-3.jpg';
 import hero1 from '@/assets/hero-1.jpg';
 import hero3 from '@/assets/hero-3.jpg';
 
+const socialLinks = {
+  instagram: 'https://www.instagram.com/smedefirmaetl.s.staalmontage/',
+  facebook: 'https://www.facebook.com/share/1Ck29gqNDQ/',
+  linkedin: 'https://www.linkedin.com/company/76579691/',
+};
+
 const socialPosts = [
   { image: project1, platform: 'instagram' as const, caption: 'Stålkonstruktion til infrastrukturprojekt', date: '2025-12' },
   { image: hero1, platform: 'facebook' as const, caption: 'Svejsning på site – EXC3 certificeret', date: '2025-11' },
@@ -35,7 +41,7 @@ const SocialShowcase = () => {
           {socialPosts.map((post, i) => {
             const PlatformIcon = platformIcons[post.platform];
             return (
-              <div key={i} className="bg-card rounded-lg overflow-hidden border border-border group cursor-pointer hover:border-primary/30 transition-colors">
+              <a key={i} href={socialLinks[post.platform]} target="_blank" rel="noopener noreferrer" className="bg-card rounded-lg overflow-hidden border border-border group cursor-pointer hover:border-primary/30 transition-colors block">
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={post.image}
@@ -52,7 +58,7 @@ const SocialShowcase = () => {
                   </div>
                   <p className="text-xs text-foreground line-clamp-2">{post.caption}</p>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
