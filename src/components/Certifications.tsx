@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { CheckCircle2, Shield, Award, FileText } from 'lucide-react';
+import { CheckCircle2, Shield, Award, FileText, X } from 'lucide-react';
+import certifikatImage from '@/assets/certifikat-1090.webp';
 
 const Certifications = () => {
   const { t } = useLanguage();
