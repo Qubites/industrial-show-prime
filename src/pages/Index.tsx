@@ -8,6 +8,7 @@ const Services = lazy(() => import('@/components/Services'));
 const Certifications = lazy(() => import('@/components/Certifications'));
 const References = lazy(() => import('@/components/References'));
 const AboutUs = lazy(() => import('@/components/AboutUs'));
+const Gallery = lazy(() => import('@/components/Gallery'));
 const SocialShowcase = lazy(() => import('@/components/SocialShowcase'));
 const ContactSection = lazy(() => import('@/components/ContactSection'));
 const Footer = lazy(() => import('@/components/Footer'));
