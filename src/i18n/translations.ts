@@ -147,6 +147,10 @@ export const translations = {
         'Christiansen & Essenbæk',
       ],
     },
+    gallery: {
+      title: 'Galleri',
+      sub: 'Se billeder fra vores projekter og arbejde.',
+    },
     social: {
       title: 'Seneste projekter og opdateringer',
       sub: 'Følg vores arbejde og se de nyeste projekter.',
@@ -318,6 +322,10 @@ export const translations = {
         'Arkil',
         'Christiansen & Essenbæk',
       ],
+    },
+    gallery: {
+      title: 'Gallery',
+      sub: 'See photos from our projects and work.',
     },
     social: {
       title: 'Latest Projects and Updates',
