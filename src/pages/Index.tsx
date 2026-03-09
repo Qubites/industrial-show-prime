@@ -4,7 +4,9 @@ import TrustBar from '@/components/TrustBar';
 import Showcase from '@/components/Showcase';
 import Services from '@/components/Services';
 import Certifications from '@/components/Certifications';
+import References from '@/components/References';
 import AboutUs from '@/components/AboutUs';
+import SocialShowcase from '@/components/SocialShowcase';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
@@ -17,7 +19,9 @@ const Index = () => {
       <Showcase />
       <Services />
       <Certifications />
+      <References />
       <AboutUs />
+      <SocialShowcase />
       <ContactSection />
       <Footer />
     </div>
