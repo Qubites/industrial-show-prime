@@ -58,7 +58,7 @@ const SocialShowcase = () => {
                   </div>
                   <p className="text-xs text-foreground line-clamp-2">{post.caption}</p>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
