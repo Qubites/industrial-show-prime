@@ -323,6 +323,10 @@ export const translations = {
         'Christiansen & Essenbæk',
       ],
     },
+    gallery: {
+      title: 'Gallery',
+      sub: 'See photos from our projects and work.',
+    },
     social: {
       title: 'Latest Projects and Updates',
       sub: 'Follow our work and see our latest projects.',
