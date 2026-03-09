@@ -41,7 +41,7 @@ const SocialShowcase = () => {
           {socialPosts.map((post, i) => {
             const PlatformIcon = platformIcons[post.platform];
             return (
-              <div key={i} className="bg-card rounded-lg overflow-hidden border border-border group cursor-pointer hover:border-primary/30 transition-colors">
+              <a key={i} href={socialLinks[post.platform]} target="_blank" rel="noopener noreferrer" className="bg-card rounded-lg overflow-hidden border border-border group cursor-pointer hover:border-primary/30 transition-colors block">
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={post.image}
