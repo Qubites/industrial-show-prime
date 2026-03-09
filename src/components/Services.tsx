@@ -1,7 +1,7 @@
 import { useLanguage } from '@/i18n/LanguageContext';
-import { Compass, Building2, Wrench, Flame, ClipboardCheck, Users } from 'lucide-react';
+import { Compass, Lightbulb, Building2, Wrench, Flame, Users } from 'lucide-react';
 
-const icons = [Compass, Building2, Wrench, Flame, ClipboardCheck, Users];
+const icons = [Compass, Lightbulb, Building2, Wrench, Flame, Users];
 
 const Services = () => {
   const { t } = useLanguage();
@@ -21,7 +21,8 @@ const Services = () => {
               <div key={i} className="bg-card p-6 rounded-lg border border-border hover:border-primary/30 transition-colors">
                 <Icon size={24} className="text-primary mb-4" />
                 <h3 className="text-base font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
+                <p className="text-sm text-muted-foreground mb-3">{item.desc}</p>
+                <p className="text-xs font-medium text-primary">{item.value}</p>
               </div>
             );
           })}
