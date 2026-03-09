@@ -5,6 +5,7 @@ import certifikatImage from '@/assets/certifikat-1090.webp';
 
 const Certifications = () => {
   const { t } = useLanguage();
+  const [showCert, setShowCert] = useState(false);
 
   return (
     <section id="certifications" className="py-24 bg-background">
