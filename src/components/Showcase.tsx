@@ -84,6 +84,7 @@ const Showcase = () => {
                 <img
                   src={project.image}
                   alt={lang === 'da' ? project.titleDa : project.titleEn}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>

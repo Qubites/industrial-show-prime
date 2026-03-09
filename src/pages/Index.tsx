@@ -1,14 +1,16 @@
+import { lazy, Suspense } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import TrustBar from '@/components/TrustBar';
-import Showcase from '@/components/Showcase';
-import Services from '@/components/Services';
-import Certifications from '@/components/Certifications';
-import References from '@/components/References';
-import AboutUs from '@/components/AboutUs';
-import SocialShowcase from '@/components/SocialShowcase';
-import ContactSection from '@/components/ContactSection';
-import Footer from '@/components/Footer';
+
+const Showcase = lazy(() => import('@/components/Showcase'));
+const Services = lazy(() => import('@/components/Services'));
+const Certifications = lazy(() => import('@/components/Certifications'));
+const References = lazy(() => import('@/components/References'));
+const AboutUs = lazy(() => import('@/components/AboutUs'));
+const SocialShowcase = lazy(() => import('@/components/SocialShowcase'));
+const ContactSection = lazy(() => import('@/components/ContactSection'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 const Index = () => {
   return (
@@ -16,14 +18,16 @@ const Index = () => {
       <Header />
       <Hero />
       <TrustBar />
-      <Showcase />
-      <Services />
-      <Certifications />
-      <References />
-      <AboutUs />
-      <SocialShowcase />
-      <ContactSection />
-      <Footer />
+      <Suspense fallback={<div className="h-96" />}>
+        <Showcase />
+        <Services />
+        <Certifications />
+        <References />
+        <AboutUs />
+        <SocialShowcase />
+        <ContactSection />
+        <Footer />
+      </Suspense>
     </div>
   );
 };
