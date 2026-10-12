@@ -1,7 +1,8 @@
 import { useLanguage } from '@/i18n/LanguageContext';
-import hero1 from '@/assets/hero-1.jpg';
-import hero2 from '@/assets/hero-2.jpg';
-import hero3 from '@/assets/hero-3.jpg';
+// The company's own photos (from its Webador draft), cropped to 16:9.
+import hero1 from '@/assets/hero/hero-staalramme.webp';
+import hero2 from '@/assets/hero/hero-svejsning.webp';
+import hero3 from '@/assets/hero/hero-trappe.webp';
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -10,9 +11,9 @@ const Hero = () => {
     <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden">
       {/* Slideshow backgrounds */}
       <div className="absolute inset-0">
-        <img src={hero1} alt="Steel fabrication" className="absolute inset-0 w-full h-full object-cover hero-slide-1" />
-        <img src={hero2} alt="Steel installation" className="absolute inset-0 w-full h-full object-cover hero-slide-2 opacity-0" />
-        <img src={hero3} alt="Certified welding" className="absolute inset-0 w-full h-full object-cover hero-slide-3 opacity-0" />
+        <img src={hero1} alt="Galvaniseret stålkonstruktion rejst på byggepladsen" fetchPriority="high" className="absolute inset-0 w-full h-full object-cover hero-slide-1" />
+        <img src={hero2} alt="Svejsning fra lift på byggepladsen" className="absolute inset-0 w-full h-full object-cover hero-slide-2 opacity-0" />
+        <img src={hero3} alt="Ståltrappe med værn" className="absolute inset-0 w-full h-full object-cover hero-slide-3 opacity-0" />
       </div>
 
       {/* Dark overlay */}

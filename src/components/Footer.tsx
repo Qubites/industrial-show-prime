@@ -66,10 +66,9 @@ const Footer = () => {
           <p className="text-xs text-white/50">
             © {new Date().getFullYear()} {company.name.toUpperCase()}. {t.footer.rights}
           </p>
-          <div className="flex gap-4">
-            <a href="#" className="text-xs text-white/50 hover:text-white transition-colors">{t.footer.privacy}</a>
-            <a href="#" className="text-xs text-white/50 hover:text-white transition-colors">{t.footer.terms}</a>
-          </div>
+          <a href={`${import.meta.env.BASE_URL}privatliv.html`} className="text-xs text-white/50 hover:text-white transition-colors">
+            {t.footer.privacy}
+          </a>
         </div>
       </div>
     </footer>

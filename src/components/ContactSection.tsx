@@ -3,9 +3,15 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { Phone, MapPin, Mail, Send, Instagram, Linkedin, Facebook, CheckCircle2, Loader2 } from 'lucide-react';
 import { company } from '@/lib/company';
 
-type Status = 'idle' | 'sending' | 'sent' | 'error';
+type Status = 'idle' | 'sending' | 'sent' | 'busy' | 'error';
+type FieldKey = 'name' | 'company' | 'email' | 'phone' | 'projectType' | 'message';
+type Errors = Partial<Record<'name' | 'email' | 'message', string>>;
 
-const emptyForm = { name: '', company: '', email: '', phone: '', projectType: '', message: '' };
+const emptyForm: Record<FieldKey, string> = { name: '', company: '', email: '', phone: '', projectType: '', message: '' };
+
+// Same rule as kontakt.php (PHP's FILTER_VALIDATE_EMAIL wants a dot in the domain);
+// the browser's own check lets "kim@gmail" through.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const socials = [
   { href: company.social.instagram, label: 'Instagram', Icon: Instagram },
@@ -15,14 +21,43 @@ const socials = [
 
 const ContactSection = () => {
   const { lang, t } = useLanguage();
+  const f = t.contact.form;
   const [formData, setFormData] = useState(emptyForm);
+  const [errors, setErrors] = useState<Errors>({});
   // Hidden from people; robots fill it in, and kontakt.php then drops the message.
   const [website, setWebsite] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const openedAt = useRef(Date.now());
+  const fieldRefs = useRef<Partial<Record<FieldKey, HTMLInputElement | HTMLTextAreaElement | null>>>({});
+
+  const validate = (data: typeof formData): Errors => {
+    const next: Errors = {};
+    if (!data.name.trim()) next.name = f.errors.name;
+    if (!data.email.trim()) next.email = f.errors.emailMissing;
+    else if (!EMAIL_RE.test(data.email.trim())) next.email = f.errors.emailInvalid;
+    if (!data.message.trim()) next.message = f.errors.message;
+    return next;
+  };
+
+  const showErrors = (next: Errors) => {
+    setErrors(next);
+    const first = (['name', 'email', 'message'] as const).find((k) => next[k]);
+    if (first) fieldRefs.current[first]?.focus();
+  };
+
+  const update = (key: FieldKey, value: string) => {
+    setFormData((d) => ({ ...d, [key]: value }));
+    if (key in errors) setErrors((e) => ({ ...e, [key]: undefined }));
+    if (status === 'error' || status === 'busy') setStatus('idle');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const found = validate(formData);
+    if (Object.keys(found).length) {
+      showErrors(found);
+      return;
+    }
     setStatus('sending');
     try {
       const res = await fetch(`${import.meta.env.BASE_URL}kontakt.php`, {
@@ -31,15 +66,76 @@ const ContactSection = () => {
         body: JSON.stringify({ ...formData, website, lang, elapsed: Date.now() - openedAt.current }),
       });
       const data = await res.json().catch(() => null);
-      if (!res.ok || !data?.ok) throw new Error(`kontakt.php ${res.status}`);
-      setStatus('sent');
-      setFormData(emptyForm);
+      if (res.ok && data?.ok) {
+        setStatus('sent');
+        setFormData(emptyForm);
+        setErrors({});
+        return;
+      }
+      if (res.status === 400 && (data?.field === 'name' || data?.field === 'email' || data?.field === 'message')) {
+        setStatus('idle');
+        const key = data.field as 'name' | 'email' | 'message';
+        showErrors({ [key]: key === 'email' ? f.errors.emailInvalid : f.errors[key] });
+        return;
+      }
+      setStatus(res.status === 429 ? 'busy' : 'error');
     } catch {
       setStatus('error');
     }
   };
 
-  const inputClass = "w-full bg-secondary border border-border rounded px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors";
+  const inputClass = (invalid: boolean) =>
+    `w-full bg-secondary border rounded px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none transition-colors ${
+      invalid ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'
+    }`;
+
+  const field = (
+    key: FieldKey,
+    opts: { type?: string; required?: boolean; maxLength: number; autoComplete?: string; textarea?: boolean },
+  ) => {
+    const id = `kontakt-${key}`;
+    const error = (errors as Record<string, string | undefined>)[key];
+    const placeholder = (f.placeholders as Record<string, string>)[key] || undefined;
+    const common = {
+      id,
+      name: key,
+      value: formData[key],
+      placeholder,
+      maxLength: opts.maxLength,
+      autoComplete: opts.autoComplete,
+      'aria-invalid': error ? true : undefined,
+      'aria-describedby': error ? `${id}-fejl` : undefined,
+      className: inputClass(Boolean(error)) + (opts.textarea ? ' resize-none' : ''),
+    };
+    return (
+      <div>
+        <label htmlFor={id} className="block text-sm font-medium text-foreground mb-1.5">
+          {f[key]}
+          {opts.required && <span className="text-primary"> *</span>}
+        </label>
+        {opts.textarea ? (
+          <textarea
+            {...common}
+            ref={(el) => { fieldRefs.current[key] = el; }}
+            rows={5}
+            onChange={(e) => update(key, e.target.value)}
+          />
+        ) : (
+          <input
+            {...common}
+            ref={(el) => { fieldRefs.current[key] = el; }}
+            type={opts.type ?? 'text'}
+            onChange={(e) => update(key, e.target.value)}
+          />
+        )}
+        {error && (
+          <p id={`${id}-fejl`} className="mt-1.5 text-sm text-destructive">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  };
 
   return (
     <section id="contact" className="py-24 bg-background">
@@ -93,7 +189,7 @@ const ContactSection = () => {
           {status === 'sent' ? (
             <div className="flex flex-col items-start justify-center gap-4 rounded-lg border border-primary/30 bg-card p-8" role="status">
               <CheckCircle2 size={32} className="text-primary" />
-              <p className="text-lg font-semibold text-foreground">{t.contact.form.sent}</p>
+              <p className="text-lg font-semibold text-foreground">{f.sent}</p>
               <button
                 type="button"
                 onClick={() => {
@@ -102,11 +198,11 @@ const ContactSection = () => {
                 }}
                 className="text-sm text-primary font-medium hover:underline"
               >
-                {t.contact.form.sendAnother}
+                {f.sendAnother}
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="relative space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="relative space-y-4">
               <input
                 type="text"
                 name="website"
@@ -118,81 +214,46 @@ const ContactSection = () => {
                 className="absolute -left-[9999px] h-px w-px opacity-0"
               />
               <div className="grid sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder={t.contact.form.name}
-                  className={inputClass}
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  maxLength={100}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder={t.contact.form.company}
-                  className={inputClass}
-                  value={formData.company}
-                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  maxLength={150}
-                />
+                {field('name', { required: true, maxLength: 100, autoComplete: 'name' })}
+                {field('company', { maxLength: 150, autoComplete: 'organization' })}
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
-                <input
-                  type="email"
-                  placeholder={t.contact.form.email}
-                  className={inputClass}
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  maxLength={200}
-                  required
-                />
-                <input
-                  type="tel"
-                  placeholder={t.contact.form.phone}
-                  className={inputClass}
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  maxLength={50}
-                />
+                {field('email', { type: 'email', required: true, maxLength: 200, autoComplete: 'email' })}
+                {field('phone', { type: 'tel', maxLength: 50, autoComplete: 'tel' })}
               </div>
-              <input
-                type="text"
-                placeholder={t.contact.form.projectType}
-                className={inputClass}
-                value={formData.projectType}
-                onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                maxLength={150}
-              />
-              <textarea
-                placeholder={t.contact.form.message}
-                rows={5}
-                className={inputClass + " resize-none"}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                maxLength={5000}
-                required
-              />
-              {status === 'error' && (
+              {field('projectType', { maxLength: 150 })}
+              {field('message', { required: true, maxLength: 5000, textarea: true })}
+
+              {(status === 'error' || status === 'busy') && (
                 <p className="text-sm text-destructive" role="alert">
-                  {t.contact.form.error}{' '}
+                  {status === 'busy' ? f.errors.busy : f.error}{' '}
                   <a href={company.phoneHref} className="underline">{company.phone}</a> · <a href={`mailto:${company.email}`} className="underline">{company.email}</a>
                 </p>
               )}
-              <button
-                type="submit"
-                disabled={status === 'sending'}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
-              >
-                {status === 'sending' ? (
-                  <>
-                    <Loader2 size={16} className="animate-spin" /> {t.contact.form.sending}
-                  </>
-                ) : (
-                  <>
-                    <Send size={16} /> {t.contact.form.submit}
-                  </>
-                )}
-              </button>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
+                >
+                  {status === 'sending' ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" /> {f.sending}
+                    </>
+                  ) : (
+                    <>
+                      <Send size={16} /> {f.submit}
+                    </>
+                  )}
+                </button>
+                <span className="text-xs text-muted-foreground">{f.required}</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {f.privacy}{' '}
+                <a href={`${import.meta.env.BASE_URL}privatliv.html`} className="underline hover:text-primary">
+                  {f.privacyLink}
+                </a>
+              </p>
             </form>
           )}
         </div>

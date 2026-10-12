@@ -115,8 +115,15 @@ $projectType = oneLine(field($in, 'projectType', 150));
 $message = field($in, 'message', 5000);
 $lang = field($in, 'lang', 5) === 'en' ? 'engelsk' : 'dansk';
 
-if ($name === '' || $message === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    reply(400, array('ok' => false, 'error' => 'invalid'));
+// "field" tells the page which message to show under which field.
+if ($name === '') {
+    reply(400, array('ok' => false, 'error' => 'invalid', 'field' => 'name'));
+}
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    reply(400, array('ok' => false, 'error' => 'invalid', 'field' => 'email'));
+}
+if ($message === '') {
+    reply(400, array('ok' => false, 'error' => 'invalid', 'field' => 'message'));
 }
 
 if (!underHourlyCap()) {

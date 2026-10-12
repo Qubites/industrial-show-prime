@@ -3,14 +3,14 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { X } from 'lucide-react';
 
 // Import all gallery images
-import g01 from '@/assets/gallery/gallery-01.png';
-import g02 from '@/assets/gallery/gallery-02.png';
-import g03 from '@/assets/gallery/gallery-03.png';
-import g04 from '@/assets/gallery/gallery-04.png';
-import g06 from '@/assets/gallery/gallery-06.png';
-import g07 from '@/assets/gallery/gallery-07.png';
-import g09 from '@/assets/gallery/gallery-09.png';
-import g10 from '@/assets/gallery/gallery-10.png';
+import g01 from '@/assets/gallery/gallery-01.webp';
+import g02 from '@/assets/gallery/gallery-02.webp';
+import g03 from '@/assets/gallery/gallery-03.webp';
+import g04 from '@/assets/gallery/gallery-04.webp';
+import g06 from '@/assets/gallery/gallery-06.webp';
+import g07 from '@/assets/gallery/gallery-07.webp';
+import g09 from '@/assets/gallery/gallery-09.webp';
+import g10 from '@/assets/gallery/gallery-10.webp';
 
 const images = [g01, g02, g03, g04, g06, g07, g09, g10];
 
