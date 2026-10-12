@@ -1,22 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Spark in the logo banner's colours: navy background, white core, icy blue glow. -->
+  <!-- A welding spark in the logo banner's electric blue; bold enough to read at 16px. -->
   <defs>
-    <radialGradient id="core" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="0.45" stop-color="#e8f4fc"/>
-      <stop offset="1" stop-color="#8fc3ea"/>
-    </radialGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="#8fc3ea" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#8fc3ea" stop-opacity="0"/>
-    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e94dc"/><stop offset="1" stop-color="#0a4a90"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#172139"/>
-  <circle cx="32" cy="32" r="20" fill="url(#glow)"/>
-  <!-- diagonal rays -->
-  <path d="M32 32 L48.5 15.5 L34.6 34.6 Z M32 32 L15.5 48.5 L29.4 29.4 Z M32 32 L48.5 48.5 L29.4 34.6 Z M32 32 L15.5 15.5 L34.6 29.4 Z" fill="#5fa8e6"/>
-  <!-- main four-point spark -->
-  <path d="M32 6 C33.6 22 42 30.4 58 32 C42 33.6 33.6 42 32 58 C30.4 42 22 33.6 6 32 C22 30.4 30.4 22 32 6 Z" fill="url(#core)"/>
-  <circle cx="49" cy="14" r="2.2" fill="#a0d0f0"/>
-  <circle cx="14" cy="50" r="1.6" fill="#5fa8e6"/>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <circle cx="32" cy="32" r="22" fill="url(#glow)"/>
+  <path d="M32.0 4.5 C38.9 29.2 34.8 25.1 59.5 32.0 C34.8 38.9 38.9 34.8 32.0 59.5 C25.1 34.8 29.2 38.9 4.5 32.0 C29.2 25.1 25.1 29.2 32.0 4.5 Z" fill="#ffffff"/>
+  <path d="M51.0 6.0 C53.1 11.9 52.1 10.9 58.0 13.0 C52.1 15.1 53.1 14.1 51.0 20.0 C48.9 14.1 49.9 15.1 44.0 13.0 C49.9 10.9 48.9 11.9 51.0 6.0 Z" fill="#ffffff"/>
 </svg>
