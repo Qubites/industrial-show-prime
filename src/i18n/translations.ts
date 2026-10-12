@@ -27,7 +27,7 @@ export const translations = {
     showcase: {
       title: 'Udvalgte projekter',
       sub: 'Vi leverer stålkonstruktioner og montageløsninger til industri, forsyning, infrastruktur og byggeri.',
-      viewProject: 'Se projekt',
+      viewProject: 'Se billede',
       filters: {
         all: 'Alle',
         structures: 'Stålkonstruktioner',
@@ -152,13 +152,15 @@ export const translations = {
       sub: 'Se billeder fra vores projekter og arbejde.',
     },
     social: {
-      title: 'Seneste projekter og opdateringer',
-      sub: 'Følg vores arbejde og se de nyeste projekter.',
+      title: 'Følg vores arbejde',
+      sub: 'Se nye opgaver og billeder fra pladsen på vores sociale medier.',
+      follow: 'Følg os',
     },
     contact: {
       title: 'Har du brug for en stærk samarbejdspartner til dit næste projekt?',
       sub: 'Kontakt os for en uforpligtende snak om dit næste projekt.',
       callNow: 'Ring nu',
+      follow: 'Følg os',
       sendInquiry: 'Send forespørgsel',
       form: {
         name: 'Navn',
@@ -168,11 +170,16 @@ export const translations = {
         projectType: 'Projekttype',
         message: 'Besked',
         submit: 'Send forespørgsel',
+        sending: 'Sender …',
+        sent: 'Tak for din henvendelse. Vi vender tilbage hurtigst muligt.',
+        sendAnother: 'Send en ny besked',
+        error: 'Beskeden blev ikke sendt. Ring eller skriv direkte til os:',
         fileUpload: 'Vedhæft tegninger eller dokumenter',
       },
     },
     footer: {
       rights: 'Alle rettigheder forbeholdes.',
+      account: 'Konto',
       privacy: 'Privatlivspolitik',
       terms: 'Vilkår',
     },
@@ -203,7 +210,7 @@ export const translations = {
     showcase: {
       title: 'Featured Projects',
       sub: 'We deliver steel structures and installation solutions for industry, utilities, infrastructure and construction.',
-      viewProject: 'View project',
+      viewProject: 'View photo',
       filters: {
         all: 'All',
         structures: 'Steel structures',
@@ -328,13 +335,15 @@ export const translations = {
       sub: 'See photos from our projects and work.',
     },
     social: {
-      title: 'Latest Projects and Updates',
-      sub: 'Follow our work and see our latest projects.',
+      title: 'Follow our work',
+      sub: 'See new jobs and photos from site on our social channels.',
+      follow: 'Follow us',
     },
     contact: {
       title: 'Need a reliable steel partner for your next project?',
       sub: 'Contact us for a non-binding conversation about your project.',
       callNow: 'Call now',
+      follow: 'Follow us',
       sendInquiry: 'Send inquiry',
       form: {
         name: 'Name',
@@ -344,11 +353,16 @@ export const translations = {
         projectType: 'Project type',
         message: 'Message',
         submit: 'Send inquiry',
+        sending: 'Sending …',
+        sent: 'Thank you for your inquiry. We will get back to you as soon as possible.',
+        sendAnother: 'Send another message',
+        error: 'Your message was not sent. Please call or email us directly:',
         fileUpload: 'Attach drawings or documents',
       },
     },
     footer: {
       rights: 'All rights reserved.',
+      account: 'Account',
       privacy: 'Privacy Policy',
       terms: 'Terms',
     },

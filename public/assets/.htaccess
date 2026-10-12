@@ -1,0 +1,4 @@
+# Filnavnene her skifter ved hver ny version, så browseren må gemme dem længe
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

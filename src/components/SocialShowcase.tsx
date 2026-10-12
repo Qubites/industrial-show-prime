@@ -1,66 +1,47 @@
 import { useLanguage } from '@/i18n/LanguageContext';
-import { Instagram, Facebook, Linkedin } from 'lucide-react';
-import project1 from '@/assets/project-1.jpg';
-import project2 from '@/assets/project-2.jpg';
-import project3 from '@/assets/project-3.jpg';
-import hero1 from '@/assets/hero-1.jpg';
-import hero3 from '@/assets/hero-3.jpg';
+import { Instagram, Facebook, Linkedin, ArrowUpRight } from 'lucide-react';
+import { company } from '@/lib/company';
 
-const socialLinks = {
-  instagram: 'https://www.instagram.com/smedefirmaetl.s.staalmontage/',
-  facebook: 'https://www.facebook.com/share/1Ck29gqNDQ/',
-  linkedin: 'https://www.linkedin.com/company/76579691/',
-};
-
-const socialPosts = [
-  { image: project1, platform: 'instagram' as const, caption: 'Stålkonstruktion til infrastrukturprojekt', date: '2025-12' },
-  { image: hero1, platform: 'facebook' as const, caption: 'Svejsning på site – EXC3 certificeret', date: '2025-11' },
-  { image: project2, platform: 'instagram' as const, caption: 'Industriel platform og trappekonstruktion', date: '2025-11' },
-  { image: project3, platform: 'facebook' as const, caption: 'Rørstativer til forsyningsanlæg', date: '2025-10' },
-  { image: hero3, platform: 'linkedin' as const, caption: 'Montagearbejde – landsdækkende projekter', date: '2025-10' },
+const channels = [
+  { href: company.social.instagram, label: 'Instagram', handle: '@smedefirmaetl.s.staalmontage', Icon: Instagram },
+  { href: company.social.linkedin, label: 'LinkedIn', handle: 'Smedefirmaet L.S Stålmontage ApS', Icon: Linkedin },
+  { href: company.social.facebook, label: 'Facebook', handle: 'L.S Stålmontage', Icon: Facebook },
 ];
-
-const platformIcons = {
-  instagram: Instagram,
-  facebook: Facebook,
-  linkedin: Linkedin,
-};
 
 const SocialShowcase = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 bg-secondary/50">
+    <section className="py-16 bg-secondary/50">
       <div className="container mx-auto px-4">
-        <div className="max-w-2xl mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t.social.title}</h2>
-          <p className="text-muted-foreground">{t.social.sub}</p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-          {socialPosts.map((post, i) => {
-            const PlatformIcon = platformIcons[post.platform];
-            return (
-              <a key={i} href={socialLinks[post.platform]} target="_blank" rel="noopener noreferrer" className="bg-card rounded-lg overflow-hidden border border-border group cursor-pointer hover:border-primary/30 transition-colors block">
-                <div className="aspect-square overflow-hidden">
-                  <img
-                    src={post.image}
-                    alt={post.caption}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+        <div className="grid lg:grid-cols-3 gap-8 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">{t.social.title}</h2>
+            <p className="text-muted-foreground">{t.social.sub}</p>
+          </div>
+          <div className="lg:col-span-2 grid sm:grid-cols-3 gap-4">
+            {channels.map(({ href, label, handle, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col gap-4 bg-card p-5 rounded-lg border border-border hover:border-primary/40 transition-colors"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Icon size={20} className="text-primary" />
+                  </span>
+                  <ArrowUpRight size={18} className="text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
-                <div className="p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <PlatformIcon size={14} className="text-muted-foreground" />
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{post.platform}</span>
-                    <span className="text-[10px] text-muted-foreground ml-auto">{post.date}</span>
-                  </div>
-                  <p className="text-xs text-foreground line-clamp-2">{post.caption}</p>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">{label}</p>
+                  <p className="text-xs text-muted-foreground truncate">{handle}</p>
                 </div>
+                <span className="text-xs font-medium text-primary">{t.social.follow}</span>
               </a>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>

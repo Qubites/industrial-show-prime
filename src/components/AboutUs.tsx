@@ -1,6 +1,6 @@
 import { useLanguage } from '@/i18n/LanguageContext';
 import { CheckCircle2 } from 'lucide-react';
-import hero2 from '@/assets/hero-2.jpg';
+import staircase from '@/assets/projects/staaltrappe-med-vaern.webp';
 
 const AboutUs = () => {
   const { t } = useLanguage();
@@ -27,7 +27,7 @@ const AboutUs = () => {
             </div>
           </div>
           <div className="aspect-[4/3] rounded-lg overflow-hidden">
-            <img src={hero2} alt="L. S. Stålmontage on site" className="w-full h-full object-cover" />
+            <img src={staircase} alt="Ståltrappe med værn monteret af L. S. Stålmontage" loading="lazy" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
