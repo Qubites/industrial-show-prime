@@ -19,7 +19,7 @@ const Hero = () => {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-graphite/75" />
 
-      <div className="relative container mx-auto px-4 pt-16">
+      <div className="relative container mx-auto px-4 pt-20">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-white mb-6 animate-fade-in-up">
             {t.hero.headline}

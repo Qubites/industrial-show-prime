@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Menu, X } from 'lucide-react';
-// The company's own wordmark, cut from its logo banner (black on transparent).
-import logo from '@/assets/logo-smedefirmaet.webp';
+// The company's logo banner (white panel on blue sparks), shown as on its old site.
+import logo from '@/assets/logo-banner.webp';
 
 const Header = () => {
   const { lang, setLang, t } = useLanguage();
@@ -19,9 +19,9 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
+      <div className="container mx-auto flex items-center justify-between h-20 px-4">
         <a href="#" className="flex shrink-0 items-center gap-2">
-          <img src={logo} alt="Smedefirmaet L. S. Stålmontage ApS" className="h-11 w-auto" />
+          <img src={logo} alt="Smedefirmaet L. S. Stålmontage ApS" className="h-[70px] w-auto rounded" />
         </a>
 
         {/* The full menu needs ~1000px next to the logo; narrower screens use the menu button. */}
