@@ -2,7 +2,8 @@
 // (Webador draft, Oct 2026) and the Nordcert certificate.
 export const company = {
   name: 'Smedefirmaet L. S. Stålmontage ApS',
-  shortName: 'L. S. STÅLMONTAGE ApS',
+  // Non-breaking spaces keep "L. S." and "STÅLMONTAGE ApS" together when the name wraps.
+  displayName: 'SMEDEFIRMAET L.\u00a0S. STÅLMONTAGE\u00a0ApS',
   cvr: '70963116',
   pnr: '1007967612',
   street: 'Sydvestvej 111 D',

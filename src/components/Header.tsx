@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Menu, X } from 'lucide-react';
-import logo from '@/assets/logo.webp';
+// The company's own wordmark, cut from its logo banner (black on transparent).
+import logo from '@/assets/logo-smedefirmaet.webp';
 
 const Header = () => {
   const { lang, setLang, t } = useLanguage();
@@ -19,16 +20,17 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <a href="#" className="flex items-center gap-2">
-          <img src={logo} alt="L. S. Stålmontage" className="h-36 w-auto" />
+        <a href="#" className="flex shrink-0 items-center gap-2">
+          <img src={logo} alt="Smedefirmaet L. S. Stålmontage ApS" className="h-11 w-auto" />
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
+        {/* The full menu needs ~1000px next to the logo; narrower screens use the menu button. */}
+        <nav className="hidden lg:flex items-center gap-8">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="whitespace-nowrap text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {item.label}
             </a>
@@ -51,7 +53,7 @@ const Header = () => {
           </a>
 
           <button
-            className="md:hidden text-foreground"
+            className="lg:hidden text-foreground"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -60,7 +62,7 @@ const Header = () => {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-background border-b border-border">
+        <div className="lg:hidden bg-background border-b border-border">
           <nav className="flex flex-col px-4 py-4 gap-3">
             {navItems.map((item) => (
               <a

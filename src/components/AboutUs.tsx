@@ -27,7 +27,7 @@ const AboutUs = () => {
             </div>
           </div>
           <div className="aspect-[4/3] rounded-lg overflow-hidden">
-            <img src={staircase} alt="Ståltrappe med værn monteret af L. S. Stålmontage" loading="lazy" className="w-full h-full object-cover" />
+            <img src={staircase} alt="Ståltrappe med værn monteret af Smedefirmaet L. S. Stålmontage" loading="lazy" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>

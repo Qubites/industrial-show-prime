@@ -80,7 +80,7 @@ export const translations = {
       certificate: {
         number: '1505-CPR-CS1124',
         standard: 'EN 1090-1:2009+A1:2011',
-        company: 'LS Stålmontage ApS',
+        company: 'Smedefirmaet L. S. Stålmontage ApS',
         validUntil: 'Gyldig til 15.05.2026',
         issuer: 'Nordcert',
         viewCert: 'Se certificering',
@@ -278,7 +278,7 @@ export const translations = {
       certificate: {
         number: '1505-CPR-CS1124',
         standard: 'EN 1090-1:2009+A1:2011',
-        company: 'LS Stålmontage ApS',
+        company: 'Smedefirmaet L. S. Stålmontage ApS',
         validUntil: 'Valid until 15.05.2026',
         issuer: 'Nordcert',
         viewCert: 'View certification',

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Spark in the logo banner's colours: navy background, white core, icy blue glow. -->
+  <defs>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.45" stop-color="#e8f4fc"/>
+      <stop offset="1" stop-color="#8fc3ea"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#8fc3ea" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#8fc3ea" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#172139"/>
+  <circle cx="32" cy="32" r="20" fill="url(#glow)"/>
+  <!-- diagonal rays -->
+  <path d="M32 32 L48.5 15.5 L34.6 34.6 Z M32 32 L15.5 48.5 L29.4 29.4 Z M32 32 L48.5 48.5 L29.4 34.6 Z M32 32 L15.5 15.5 L34.6 29.4 Z" fill="#5fa8e6"/>
+  <!-- main four-point spark -->
+  <path d="M32 6 C33.6 22 42 30.4 58 32 C42 33.6 33.6 42 32 58 C30.4 42 22 33.6 6 32 C22 30.4 30.4 22 32 6 Z" fill="url(#core)"/>
+  <circle cx="49" cy="14" r="2.2" fill="#a0d0f0"/>
+  <circle cx="14" cy="50" r="1.6" fill="#5fa8e6"/>
+</svg>

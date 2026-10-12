@@ -16,7 +16,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="font-bold text-white mb-3">{company.shortName}</h3>
+            <h3 className="font-bold text-white mb-3">{company.displayName}</h3>
             <p className="text-sm text-white/60">CVR: {company.cvr}</p>
             <p className="text-sm text-white/60">P-nr: {company.pnr}</p>
             <p className="text-sm text-white/60 mt-2">
@@ -64,7 +64,7 @@ const Footer = () => {
 
         <div className="border-t border-white/10 pt-6 flex flex-wrap justify-between gap-4">
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} {company.name.toUpperCase()}. {t.footer.rights}
+            © {new Date().getFullYear()} {company.displayName}. {t.footer.rights}
           </p>
           <a href={`${import.meta.env.BASE_URL}privatliv.html`} className="text-xs text-white/50 hover:text-white transition-colors">
             {t.footer.privacy}

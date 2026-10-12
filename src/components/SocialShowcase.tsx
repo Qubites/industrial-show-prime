@@ -5,7 +5,7 @@ import { company } from '@/lib/company';
 const channels = [
   { href: company.social.instagram, label: 'Instagram', handle: '@smedefirmaetl.s.staalmontage', Icon: Instagram },
   { href: company.social.linkedin, label: 'LinkedIn', handle: 'Smedefirmaet L.S Stålmontage ApS', Icon: Linkedin },
-  { href: company.social.facebook, label: 'Facebook', handle: 'L.S Stålmontage', Icon: Facebook },
+  { href: company.social.facebook, label: 'Facebook', handle: 'Smedefirmaet L. S. Stålmontage ApS', Icon: Facebook },
 ];
 
 const SocialShowcase = () => {
