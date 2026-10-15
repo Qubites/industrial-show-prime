@@ -130,6 +130,11 @@ export const translations = {
     },
     references: {
       title: 'Referencer og samarbejdspartnere',
+      partner: {
+        title: 'Stolt partner af Herlev Eagles',
+        text: 'Vi støtter ishockeyklubben Herlev Eagles hvert år.',
+        link: 'Se klubbens partnere',
+      },
       sub: 'Gennem årene har vi haft fornøjelsen af at udføre opgaver for en bred vifte af anerkendte kunder.',
       trust: 'Vi stræber efter at være den foretrukne partner for industri, byggeri, kommuner og entreprenørselskaber, der værdsætter pålidelighed og ekspertise.',
       clients: [
@@ -334,6 +339,11 @@ export const translations = {
     },
     references: {
       title: 'References and Partners',
+      partner: {
+        title: 'Proud partner of Herlev Eagles',
+        text: 'We support the ice hockey club Herlev Eagles every year.',
+        link: "See the club's partners",
+      },
       sub: 'Over the years, we have had the pleasure of working for a wide range of recognized clients.',
       trust: 'We strive to be the preferred partner for industry, construction, municipalities, and contractor companies that value reliability and expertise.',
       clients: [
