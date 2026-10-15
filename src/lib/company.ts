@@ -12,6 +12,12 @@ export const company = {
   phoneHref: 'tel:+4543451149',
   email: 'mail@ls-staalmontage.dk',
   bank: { name: 'Danske Bank', reg: '4366', account: '11372295' },
+  // Contact people as Kim listed them (15/10/2026): e-mail only; the main number goes to Kim.
+  people: [
+    { name: 'Kim Ryvard', role: { da: 'Direktør', en: 'Managing director' }, email: 'kr@ls-staalmontage.dk' },
+    { name: 'Kim Mortensen', role: { da: 'Smedeformand', en: 'Smith foreman' }, email: 'km@ls-staalmontage.dk' },
+    { name: 'Kristian Thal Jensen', role: { da: 'Administrativ koordinator', en: 'Administrative coordinator' }, email: 'kj@ls-staalmontage.dk' },
+  ],
   social: {
     instagram: 'https://www.instagram.com/smedefirmaetl.s.staalmontage/',
     linkedin: 'https://www.linkedin.com/company/76579691/',

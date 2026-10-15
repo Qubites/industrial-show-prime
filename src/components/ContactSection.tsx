@@ -158,9 +158,22 @@ const ContactSection = () => {
                 <MapPin size={20} className="text-primary mt-0.5" />
                 <div>
                   <p className="font-medium text-foreground">{company.street}</p>
-                  <p className="text-sm text-muted-foreground">{company.city}, Denmark</p>
+                  <p className="text-sm text-muted-foreground">{company.city}, {lang === 'da' ? 'Danmark' : 'Denmark'}</p>
                 </div>
               </div>
+            </div>
+
+            <div className="mt-8">
+              <p className="text-sm font-semibold text-foreground mb-3">{t.contact.people}</p>
+              <ul className="space-y-2">
+                {company.people.map((person) => (
+                  <li key={person.email} className="text-sm">
+                    <span className="font-medium text-foreground">{person.name}</span>
+                    <span className="text-muted-foreground"> · {person.role[lang]} · </span>
+                    <a href={`mailto:${person.email}`} className="text-primary hover:underline break-all">{person.email}</a>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="flex flex-wrap items-center gap-3 mt-8">

@@ -147,6 +147,7 @@ export const translations = {
       title: 'Har I en opgave?',
       sub: 'Ring, skriv via formularen, eller send tegninger på mail – så vender vi tilbage.',
       callNow: 'Ring nu',
+      people: 'Kontaktpersoner',
       follow: 'Følg os',
       sendInquiry: 'Send forespørgsel',
       form: {
@@ -341,6 +342,7 @@ export const translations = {
       title: 'Got a job for us?',
       sub: 'Call us, write via the form, or email us your drawings – and we will get back to you.',
       callNow: 'Call now',
+      people: 'Contact people',
       follow: 'Follow us',
       sendInquiry: 'Send inquiry',
       form: {
