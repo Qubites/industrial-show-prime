@@ -1,5 +1,5 @@
 import { useLanguage } from '@/i18n/LanguageContext';
-import { Award, Shield, Flame, MapPin, Globe } from 'lucide-react';
+import { Award, Shield, Flame, Factory, Clock } from 'lucide-react';
 
 const TrustBar = () => {
   const { t } = useLanguage();
@@ -8,8 +8,8 @@ const TrustBar = () => {
     { icon: Award, label: t.trust.experience },
     { icon: Shield, label: t.trust.certified },
     { icon: Flame, label: t.trust.welding },
-    { icon: MapPin, label: t.trust.location },
-    { icon: Globe, label: t.trust.nationwide },
+    { icon: Factory, label: t.trust.workshop },
+    { icon: Clock, label: t.trust.service },
   ];
 
   return (

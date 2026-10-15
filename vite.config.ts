@@ -14,6 +14,15 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
+  build: {
+    // Two pages: the front page and the references page (a real file, no URL rewriting needed).
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+        referencer: path.resolve(__dirname, "referencer.html"),
+      },
+    },
+  },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {

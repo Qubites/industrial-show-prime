@@ -1,7 +1,7 @@
 import { useLanguage } from '@/i18n/LanguageContext';
-import { Compass, Lightbulb, Building2, Wrench, Flame, Users } from 'lucide-react';
+import { Flame, Building2, Wrench, Factory, HardHat, Clock } from 'lucide-react';
 
-const icons = [Compass, Lightbulb, Building2, Wrench, Flame, Users];
+const icons = [Flame, Building2, Wrench, Factory, HardHat, Clock];
 
 const Services = () => {
   const { t } = useLanguage();

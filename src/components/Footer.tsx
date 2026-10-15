@@ -8,6 +8,8 @@ const socials = [
   { href: company.social.facebook, label: 'Facebook', Icon: Facebook },
 ];
 
+const home = import.meta.env.BASE_URL;
+
 const Footer = () => {
   const { t } = useLanguage();
 
@@ -42,10 +44,11 @@ const Footer = () => {
             </a>
           </div>
           <div className="flex flex-col gap-2">
-            <a href="#projects" className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.projects}</a>
-            <a href="#services" className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.services}</a>
-            <a href="#certifications" className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.certifications}</a>
-            <a href="#contact" className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.contact}</a>
+            <a href={`${home}#projects`} className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.projects}</a>
+            <a href={`${home}#services`} className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.services}</a>
+            <a href={`${home}referencer.html`} className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.references}</a>
+            <a href={`${home}#certifications`} className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.certifications}</a>
+            <a href={`${home}#contact`} className="text-sm text-white/60 hover:text-white transition-colors">{t.nav.contact}</a>
           </div>
           <div className="flex flex-col gap-2">
             {socials.map(({ href, label, Icon }) => (

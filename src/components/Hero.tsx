@@ -29,7 +29,7 @@ const Hero = () => {
           </p>
           <div className="flex flex-wrap gap-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <a
-              href="#projects"
+              href={`${import.meta.env.BASE_URL}referencer.html`}
               className="inline-flex items-center px-6 py-3 rounded bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity"
             >
               {t.hero.cta1}

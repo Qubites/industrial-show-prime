@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { Language, translations } from './translations';
 
 type Translations = typeof translations[Language];
@@ -12,7 +12,29 @@ type LanguageContextType = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [lang, setLang] = useState<Language>('da');
+  // ?lang=en in the link wins; otherwise the visitor's last choice, so it carries over between pages.
+  const [lang, setLangState] = useState<Language>(() => {
+    try {
+      const fromUrl = new URLSearchParams(window.location.search).get('lang');
+      if (fromUrl === 'da' || fromUrl === 'en') return fromUrl;
+      const saved = localStorage.getItem('lang');
+      if (saved === 'da' || saved === 'en') return saved;
+    } catch {
+      // Storage blocked: fall back to Danish.
+    }
+    return 'da';
+  });
+  const setLang = (next: Language) => {
+    setLangState(next);
+    try {
+      localStorage.setItem('lang', next);
+    } catch {
+      // Storage blocked: the choice just isn't remembered.
+    }
+  };
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
   const t = translations[lang] as Translations;
 
   return (

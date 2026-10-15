@@ -37,7 +37,7 @@ const Certifications = () => {
               </div>
               <div>
                 <p className="text-sm font-bold text-foreground">{t.certifications.certificate.issuer}</p>
-                <p className="text-xs text-muted-foreground">Certificate</p>
+                <p className="text-xs text-muted-foreground">{t.certifications.certificate.label}</p>
               </div>
             </div>
 
@@ -52,7 +52,7 @@ const Certifications = () => {
               <div className="flex items-center gap-2">
                 <FileText size={14} className="text-primary flex-shrink-0" />
                 <div>
-                  <p className="text-xs text-muted-foreground">Certificate nr.</p>
+                  <p className="text-xs text-muted-foreground">{t.certifications.certificate.numberLabel}</p>
                   <p className="text-sm font-medium text-foreground">{t.certifications.certificate.number}</p>
                 </div>
               </div>

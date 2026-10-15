@@ -25,6 +25,13 @@ const References = () => {
         </div>
 
         <a
+          href={`${import.meta.env.BASE_URL}referencer.html`}
+          className="inline-flex items-center gap-2 px-5 py-3 rounded bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity mb-8"
+        >
+          {t.references.all} <ArrowUpRight size={16} />
+        </a>
+
+        <a
           href="https://herleveagles.dk/partnere/partneroversigt/"
           target="_blank"
           rel="noopener noreferrer"
