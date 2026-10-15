@@ -1,6 +1,10 @@
 import { useLanguage } from '@/i18n/LanguageContext';
 import { ArrowUpRight, Building } from 'lucide-react';
 import eagles from '@/assets/partners/herlev-eagles.webp';
+import { sectors } from '@/lib/references';
+
+// Same list as the references page, in sector order.
+const clients = sectors.flatMap((sector) => sector.clients.map((client) => client.name));
 
 const References = () => {
   const { t } = useLanguage();
@@ -14,7 +18,7 @@ const References = () => {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-8">
-          {t.references.clients.map((client, i) => (
+          {clients.map((client, i) => (
             <div key={i} className="flex items-center gap-2 sm:gap-3 bg-card p-3 sm:p-5 rounded-lg border border-border">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded bg-secondary flex items-center justify-center flex-shrink-0">
                 <Building size={18} className="text-primary" />
