@@ -1,103 +1,125 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { ArrowRight, X } from 'lucide-react';
-import galvanisedFrame from '@/assets/projects/galvaniseret-staalramme.webp';
-import portalFrame from '@/assets/projects/staalportal.webp';
-import weldingAtHeight from '@/assets/projects/svejsning-fra-lift.webp';
-import stairwellBalustrade from '@/assets/projects/vaern-trappeskakt.webp';
-import externalStaircase from '@/assets/projects/udvendig-staaltrappe.webp';
-import containerStop from '@/assets/projects/container-stop.webp';
+import { ArrowRight, ChevronLeft, ChevronRight, Images, X } from 'lucide-react';
 
-type FilterKey = 'all' | 'structures' | 'installation' | 'welding' | 'infrastructure' | 'utilities' | 'industrial';
+// One folder per project in src/assets/projects/<slug>/: 01.webp, 02.webp … plus cover.webp for the card.
+const files = import.meta.glob('../assets/projects/*/*.webp', { eager: true, import: 'default' }) as Record<string, string>;
+const photosOf = (slug: string) =>
+  Object.keys(files)
+    .filter((k) => k.startsWith(`../assets/projects/${slug}/`) && !k.endsWith('/cover.webp'))
+    .sort()
+    .map((k) => files[k]);
 
-// The company's own photos. Captions describe what the photo shows – no invented clients or figures.
-const projectsData = [
+type Caption = { da: string; en: string };
+
+// Texts and photos from the company (Kim's mails of 13/10/2026). Captions are keyed by photo number.
+const projectsData: {
+  slug: string;
+  titleDa: string;
+  titleEn: string;
+  summaryDa: string;
+  summaryEn: string;
+  captions?: Record<number, Caption>;
+}[] = [
   {
-    id: 1,
-    image: galvanisedFrame,
-    position: 'center',
-    category: 'structures' as FilterKey,
-    titleDa: 'Galvaniseret stålkonstruktion',
-    titleEn: 'Galvanised steel structure',
-    summaryDa: 'Bærende stålramme i galvaniseret stål, rejst på byggepladsen.',
-    summaryEn: 'Load-bearing frame in galvanised steel, erected on site.',
-    scopeDa: 'Stålkonstruktion, montage',
-    scopeEn: 'Steel structure, installation',
+    slug: 'staalkonstruktioner',
+    titleDa: 'Stålkonstruktioner',
+    titleEn: 'Steel structures',
+    summaryDa: 'Fremstilling og montage af stålkonstruktioner, udført i overensstemmelse med DS/EN 1090.',
+    summaryEn: 'Fabrication and installation of steel structures, carried out in accordance with DS/EN 1090.',
   },
   {
-    id: 2,
-    image: weldingAtHeight,
-    position: 'center 30%',
-    category: 'welding' as FilterKey,
-    titleDa: 'Montage svejsning',
-    titleEn: 'Installation welding',
-    summaryDa: 'Certificeret svejsning udført fra lift direkte på byggepladsen.',
-    summaryEn: 'Certified welding carried out from a lift, directly on site.',
-    scopeDa: 'Certificeret svejsning, montage',
-    scopeEn: 'Certified welding, installation',
+    slug: 'certificeret-svejsning',
+    titleDa: 'Certificeret svejsning',
+    titleEn: 'Certified welding',
+    summaryDa: 'Certificeret svejsning udføres efter gældende internationale og europæiske standarder.',
+    summaryEn: 'Certified welding carried out to current international and European standards.',
   },
   {
-    id: 3,
-    image: portalFrame,
-    position: 'center 60%',
-    category: 'structures' as FilterKey,
-    titleDa: 'Svejst stålportal',
-    titleEn: 'Welded steel portal frame',
-    summaryDa: 'Kraftig portal i svejst og malet konstruktionsstål.',
-    summaryEn: 'Heavy-duty portal frame in welded and painted structural steel.',
-    scopeDa: 'Svejsning, overfladebehandling',
-    scopeEn: 'Welding, surface treatment',
+    slug: 'industri',
+    titleDa: 'Industri',
+    titleEn: 'Industry',
+    summaryDa: 'Gallerier og rørbroer til industrien, fremstillet efter DS/EN ISO 14122 og DS/EN 1090.',
+    summaryEn: 'Access galleries and pipe bridges for industry, made to DS/EN ISO 14122 and DS/EN 1090.',
+    captions: {
+      1: { da: 'Bæring til rørbro fremstillet efter standarden DS/EN 1090.', en: 'Pipe bridge support made to DS/EN 1090.' },
+      2: { da: 'Galleri fremstillet efter standarden DS/EN ISO 14122.', en: 'Access gallery made to DS/EN ISO 14122.' },
+    },
   },
   {
-    id: 4,
-    image: stairwellBalustrade,
-    position: 'center 55%',
-    category: 'installation' as FilterKey,
-    titleDa: 'Værn i trappeskakt',
-    titleEn: 'Stairwell balustrade',
-    summaryDa: 'Stålværn monteret i en indvendig trappeskakt.',
-    summaryEn: 'Steel balustrade installed in an interior stairwell.',
-    scopeDa: 'Montage, værn og gelænder',
-    scopeEn: 'Installation, balustrades and handrails',
+    slug: 'trappe-og-vaern',
+    titleDa: 'Trappe og værn',
+    titleEn: 'Stairs and railings',
+    summaryDa: 'Indvendige og udvendige trapper med værn.',
+    summaryEn: 'Interior and exterior staircases with railings.',
+    captions: {
+      1: { da: 'Sort lakeret trappe med trin og håndliste i eg.', en: 'Black lacquered staircase with oak treads and handrail.' },
+      3: {
+        da: 'Indvendig trappe og værn – varmgalvaniseret, med trin og håndliste i eg.',
+        en: 'Interior staircase and railing – hot-dip galvanised, with oak treads and handrail.',
+      },
+      4: { da: 'Udvendig flugtvejstrappe.', en: 'External escape staircase.' },
+    },
   },
   {
-    id: 5,
-    image: externalStaircase,
-    position: 'center 70%',
-    category: 'installation' as FilterKey,
-    titleDa: 'Udvendig ståltrappe',
-    titleEn: 'External steel staircase',
-    summaryDa: 'Galvaniseret trappe monteret langs facaden i en baggård.',
-    summaryEn: 'Galvanised staircase installed along a facade in a courtyard.',
-    scopeDa: 'Montage, galvaniseret stål',
-    scopeEn: 'Installation, galvanised steel',
+    slug: 'vaern',
+    titleDa: 'Værn',
+    titleEn: 'Railings',
+    summaryDa: 'Værn og gelændere i stål.',
+    summaryEn: 'Steel railings and handrails.',
   },
   {
-    id: 6,
-    image: containerStop,
-    position: 'center',
-    category: 'industrial' as FilterKey,
-    titleDa: 'L.S Container STOP',
-    titleEn: 'L.S Container STOP',
-    summaryDa: 'Vores eget produkt: containerstop for bedre sikkerhed ved bugsering, ordnet placering af containere og mindre slid på underlaget.',
-    summaryEn: 'Our own product: container stops for safer towing, orderly placement of containers and less wear on the ground.',
-    scopeDa: 'Eget produkt, fremstilling',
-    scopeEn: 'Own product, fabrication',
+    slug: 'container-stop',
+    titleDa: 'Container Stop',
+    titleEn: 'Container Stop',
+    summaryDa: 'For bedre sikkerhed ved bugsering, placering af kasser samt hindring af unødig slitage på underlag. Kontakt os for at høre nærmere.',
+    summaryEn: 'Better safety when towing and placing containers, and less unnecessary wear on the ground. Contact us to hear more.',
+  },
+  {
+    slug: 'renovering',
+    titleDa: 'Renovering og vedligehold',
+    titleEn: 'Renovation and maintenance',
+    summaryDa: 'Påkørselsskader udbedret, låger renoveret og lyskasseriste udskiftet.',
+    summaryEn: 'Collision damage repaired, gates renovated and light-well grates replaced.',
   },
 ];
 
-const filterOrder: FilterKey[] = ['all', 'structures', 'installation', 'welding', 'infrastructure', 'utilities', 'industrial'];
-// Only offer filters that have photos behind them.
-const filterKeys = filterOrder.filter((key) => key === 'all' || projectsData.some((p) => p.category === key));
+const projects = projectsData.map((p) => ({ ...p, cover: files[`../assets/projects/${p.slug}/cover.webp`], photos: photosOf(p.slug) }));
+type Project = (typeof projects)[number];
 
 const Showcase = () => {
   const { lang, t } = useLanguage();
-  const [filter, setFilter] = useState<FilterKey>('all');
-  const [open, setOpen] = useState<(typeof projectsData)[number] | null>(null);
+  const [open, setOpen] = useState<{ project: Project; index: number } | null>(null);
+  const touchX = useRef<number | null>(null);
 
-  const filtered = filter === 'all'
-    ? projectsData
-    : projectsData.filter((p) => p.category === filter);
+  const step = useCallback((d: number) => {
+    setOpen((o) => o && { ...o, index: (o.index + d + o.project.photos.length) % o.project.photos.length });
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(null);
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    };
+    window.addEventListener('keydown', onKey);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [open, step]);
+
+  // Fetch the next photo while the current one is on screen.
+  useEffect(() => {
+    if (!open) return;
+    const next = open.project.photos[(open.index + 1) % open.project.photos.length];
+    new Image().src = next;
+  }, [open]);
+
+  const title = (p: Project) => (lang === 'da' ? p.titleDa : p.titleEn);
 
   return (
     <section id="projects" className="py-24 bg-background">
@@ -107,81 +129,90 @@ const Showcase = () => {
           <p className="text-muted-foreground">{t.showcase.sub}</p>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-10">
-          {filterKeys.map((key) => (
-            <button
-              key={key}
-              onClick={() => setFilter(key)}
-              className={`px-4 py-2 rounded text-xs font-medium transition-colors ${
-                filter === key
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-secondary text-secondary-foreground hover:bg-border'
-              }`}
-            >
-              {t.showcase.filters[key]}
-            </button>
-          ))}
-        </div>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((project) => {
-            const title = lang === 'da' ? project.titleDa : project.titleEn;
-            return (
-              <div key={project.id} className="group bg-card rounded-lg overflow-hidden border border-border hover:border-primary/40 transition-colors">
+          {projects.map((project) => (
+            <div key={project.slug} className="group bg-card rounded-lg overflow-hidden border border-border hover:border-primary/40 transition-colors flex flex-col">
+              <button
+                type="button"
+                onClick={() => setOpen({ project, index: 0 })}
+                className="relative block w-full aspect-[4/3] overflow-hidden"
+                aria-label={`${t.showcase.viewPhotos}: ${title(project)}`}
+              >
+                <img
+                  src={project.cover}
+                  alt={title(project)}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded bg-black/60 px-2 py-1 text-xs font-medium text-white">
+                  <Images size={14} /> {project.photos.length}
+                </span>
+              </button>
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="text-lg font-semibold text-foreground mb-2">{title(project)}</h3>
+                <p className="text-sm text-muted-foreground mb-4 flex-1">{lang === 'da' ? project.summaryDa : project.summaryEn}</p>
                 <button
                   type="button"
-                  onClick={() => setOpen(project)}
-                  className="block w-full aspect-[4/3] overflow-hidden"
-                  aria-label={`${t.showcase.viewProject}: ${title}`}
+                  onClick={() => setOpen({ project, index: 0 })}
+                  className="inline-flex items-center self-start text-sm text-primary font-medium hover:underline gap-1"
                 >
-                  <img
-                    src={project.image}
-                    alt={title}
-                    loading="lazy"
-                    style={{ objectPosition: project.position }}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  {t.showcase.viewPhotos} ({project.photos.length}) <ArrowRight size={14} />
                 </button>
-                <div className="p-5">
-                  <span className="text-xs font-medium text-primary uppercase tracking-wider">
-                    {t.showcase.filters[project.category]}
-                  </span>
-                  <h3 className="text-lg font-semibold text-foreground mt-2 mb-2">{title}</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {lang === 'da' ? project.summaryDa : project.summaryEn}
-                  </p>
-                  <p className="text-xs text-steel-light mb-4">
-                    {lang === 'da' ? project.scopeDa : project.scopeEn}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setOpen(project)}
-                    className="inline-flex items-center text-sm text-primary font-medium hover:underline gap-1"
-                  >
-                    {t.showcase.viewProject} <ArrowRight size={14} />
-                  </button>
-                </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
 
       {open && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center gap-4 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={title(open.project)}
+          className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center gap-4 p-4"
           onClick={() => setOpen(null)}
+          onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+          onTouchEnd={(e) => {
+            if (touchX.current === null) return;
+            const dx = e.changedTouches[0].clientX - touchX.current;
+            touchX.current = null;
+            if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+          }}
         >
-          <button className="absolute top-4 right-4 text-white/70 hover:text-white" onClick={() => setOpen(null)} aria-label="Luk">
+          <button className="absolute top-4 right-4 text-white/70 hover:text-white" onClick={() => setOpen(null)} aria-label={t.showcase.close}>
             <X size={32} />
           </button>
+          {open.project.photos.length > 1 && (
+            <>
+              <button
+                className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white/80 hover:text-white"
+                onClick={(e) => { e.stopPropagation(); step(-1); }}
+                aria-label={t.showcase.prev}
+              >
+                <ChevronLeft size={32} />
+              </button>
+              <button
+                className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white/80 hover:text-white"
+                onClick={(e) => { e.stopPropagation(); step(1); }}
+                aria-label={t.showcase.next}
+              >
+                <ChevronRight size={32} />
+              </button>
+            </>
+          )}
           <img
-            src={open.image}
-            alt={lang === 'da' ? open.titleDa : open.titleEn}
-            className="max-h-[80vh] max-w-[90vw] object-contain rounded-lg"
+            key={open.index}
+            src={open.project.photos[open.index]}
+            alt={open.project.captions?.[open.index + 1]?.[lang] ?? title(open.project)}
+            className="max-h-[78vh] max-w-[90vw] object-contain rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />
-          <p className="text-white text-sm font-medium">{lang === 'da' ? open.titleDa : open.titleEn}</p>
+          <div className="text-center text-white" onClick={(e) => e.stopPropagation()}>
+            <p className="text-sm font-medium">{open.project.captions?.[open.index + 1]?.[lang] ?? title(open.project)}</p>
+            <p className="text-xs text-white/60 mt-1">
+              {open.index + 1} / {open.project.photos.length}
+            </p>
+          </div>
         </div>
       )}
     </section>
